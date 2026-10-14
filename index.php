@@ -14,7 +14,18 @@ $consulta = $conexion->query(
 
 $productos = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
+// Cada código de error que devuelven validarNombre()/validarCantidad()
+// tiene aquí su clase CSS y su texto. Un ?estado= desconocido no muestra nada.
+$mensajes = [
+    'guardado'          => ['correcto', 'Producto registrado correctamente.'],
+    'nombre_vacio'      => ['error', 'El nombre no puede estar vacío.'],
+    'nombre_corto'      => ['error', 'El nombre debe tener al menos 3 caracteres.'],
+    'cantidad_invalida' => ['error', 'La cantidad debe ser un número.'],
+    'cantidad_cero'     => ['error', 'La cantidad no puede ser menor o igual a 0.'],
+];
+
 $estado = $_GET['estado'] ?? '';
+$mensaje = $mensajes[$estado] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -53,21 +64,9 @@ $estado = $_GET['estado'] ?? '';
                 Escriba el nombre del producto y su cantidad.
             </p>
 
-            <?php if ($estado === 'guardado'): ?>
-                <div class="mensaje correcto">
-                    Producto registrado correctamente.
-                </div>
-            <?php endif; ?>
-
-            <?php if ($estado === 'incompleto'): ?>
-                <div class="mensaje error">
-                    Debe completar todos los campos.
-                </div>
-            <?php endif; ?>
-
-            <?php if ($estado === 'cantidad_invalida'): ?>
-                <div class="mensaje error">
-                    La cantidad debe ser un número.
+            <?php if ($mensaje !== null): ?>
+                <div class="mensaje <?php echo $mensaje[0]; ?>">
+                    <?php echo $mensaje[1]; ?>
                 </div>
             <?php endif; ?>
 
