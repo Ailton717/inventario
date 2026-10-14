@@ -24,11 +24,10 @@ jobs:
         with:
           php-version: "8.2"
 
+      - name: Verificar sintaxis
+        run: |
+          php -l funciones.php
+          php -l test/test_validaciones.php
 
-    - name: verificar sintaxis
-      run: |
-        php -l funciones.php
-        php -l test/test_validaciones.php
-
-    - name: Ejecutar pruebas
-      run: php test/test_validaciones.php
+      - name: Ejecutar pruebas
+        run: php test/test_validaciones.php
