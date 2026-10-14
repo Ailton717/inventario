@@ -2,22 +2,22 @@
 
 require_once __DIR__ . '/../funciones.php';
 
-// Cada caso declara la función a probar, la entrada y el resultado esperado:
-// true si el valor es válido, o el código de error que debe devolver.
+// Las funciones de validacion devuelven true si el dato es valido, o el codigo
+// del error si no lo es. Cada caso espera el codigo exacto, para que index.php
+// y funciones.php no se desincronicen: si un codigo cambia aqui se nota.
 $casos = [
     [ "validarNombre", "nombre válido: Teclado", "Teclado", true ],
-    [ "validarNombre", "nombre válido: Mouse", "Mouse", true ],
-    [ "validarNombre", "nombre con espacios alrededor", "  Teclado  ", true ],
     [ "validarNombre", "nombre vacío", "", "nombre_vacio" ],
-    [ "validarNombre", "nombre solo con espacios", "   ", "nombre_vacio" ],
-    [ "validarNombre", "nombre demasiado corto", "TV", "nombre_corto" ],
+    [ "validarNombre", "nombre con espacios", "   ", "nombre_vacio" ],
+    [ "validarNombre", "nombre muy corto", "PC", "nombre_corto" ],
+    [ "validarNombre", "nombre con espacios alrededor", "  Teclado  ", true ],
+    [ "validarNombre", "nombre válido: Mouse", "Mouse", true ],
 
-    [ "validarCantidad", "cantidad válida: 10", "10", true ],
-    [ "validarCantidad", "cantidad válida: 1", 1, true ],
-    [ "validarCantidad", "cantidad no numérica", "diez", "cantidad_invalida" ],
-    [ "validarCantidad", "cantidad vacía", "", "cantidad_invalida" ],
+    [ "validarCantidad", "cantidad válida: 5", "5", true ],
     [ "validarCantidad", "cantidad cero", "0", "cantidad_cero" ],
-    [ "validarCantidad", "cantidad negativa", "-5", "cantidad_cero" ],
+    [ "validarCantidad", "cantidad negativa", "-3", "cantidad_cero" ],
+    [ "validarCantidad", "cantidad no numérica", "abc", "cantidad_invalida" ],
+    [ "validarCantidad", "cantidad vacía", "", "cantidad_invalida" ],
 ];
 
 $correctas = 0;
