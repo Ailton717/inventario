@@ -2,29 +2,38 @@
 
 require_once __DIR__ . '/../funciones.php';
 
+// Las funciones de validacion devuelven true si el dato es valido,
+// o un texto con el mensaje de error si no lo es.
 $casos = [
-    [ "nombre válido: Teclado", "Teclado", true ],
-    [ "nombre vacío", "", false ],
-    [ "nombre con espacios", "   ", false ],
-    [ "nombre válido: Mouse", "Mouse", true ],
+    [ "validarNombre", "nombre válido: Teclado", "Teclado", true ],
+    [ "validarNombre", "nombre vacío", "", false ],
+    [ "validarNombre", "nombre con espacios", "   ", false ],
+    [ "validarNombre", "nombre muy corto", "PC", false ],
+    [ "validarNombre", "nombre válido: Mouse", "Mouse", true ],
+
+    [ "validarCantidad", "cantidad válida: 5", "5", true ],
+    [ "validarCantidad", "cantidad cero", "0", false ],
+    [ "validarCantidad", "cantidad negativa", "-3", false ],
+    [ "validarCantidad", "cantidad no numérica", "abc", false ],
 ];
 
 $correctas = 0;
 $fallidas = 0;
 
-foreach ($casos as [$descripcion, $entrada, $esperado]) {
+foreach ($casos as [$funcion, $descripcion, $entrada, $esperado]) {
 
-    $obtenido = validarNombre($entrada);
+    $resultado = $funcion($entrada);
+    $obtenido = ($resultado === true);
 
-        if ($obtenido === $esperado) {
-            echo "Prueba exitosa: $descripcion\n";
-            $correctas++;
-        } else {
-            echo "FAIL - $descripcion\n";
-            echo "Esperado: " . var_export($esperado, true) . "\n";
-            echo "Obtenido: " . var_export($obtenido, true) . "\n";
-            $fallidas++;
-        }
+    if ($obtenido === $esperado) {
+        echo "Prueba exitosa: $descripcion\n";
+        $correctas++;
+    } else {
+        echo "FAIL - $descripcion\n";
+        echo "Esperado valido: " . var_export($esperado, true) . "\n";
+        echo "Obtenido: " . var_export($resultado, true) . "\n";
+        $fallidas++;
+    }
 }
 
 echo "\nResumen de pruebas:\n";

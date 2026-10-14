@@ -3,7 +3,7 @@ name: Pruebas automatizadas - inventario
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
       - main
@@ -26,8 +26,8 @@ jobs:
 
       - name: Verificar sintaxis
         run: |
-          php -l funciones.php
-          php -l test/test_validaciones.php
+          find . -name "*.php" -not -path "./.git/*" -not -path "./.claude/*" \
+            -print0 | xargs -0 -r -n1 php -l
 
       - name: Ejecutar pruebas
         run: php test/test_validaciones.php
