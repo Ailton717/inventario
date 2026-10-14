@@ -3,23 +3,6 @@
 require_once __DIR__ . '/config/conexion.php';
 require_once "funciones.php";
 
-$nombre = $_POST["nombre"] ?? "";
-$cantidad = $_POST["cantidad"] ?? "";
-
-$errorNombre = validarNombre($nombre);
-$errorCantidad = validarCantidad($cantidad);
-
-if ($errorNombre !== true) {
-    die($errorNombre);
-}
-
-if ($errorCantidad !== true) {
-    die($errorCantidad);
-}
-
-$nombre = trim($nombre);
-$cantidad = (int) $cantidad;
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;
@@ -28,13 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nombre = trim($_POST['nombre'] ?? '');
 $cantidad = $_POST['cantidad'] ?? '';
 
-if ($nombre === '' || $cantidad === '') {
-    header('Location: index.php?estado=incompleto');
+$errorNombre = validarNombre($nombre);
+
+if ($errorNombre !== true) {
+    header('Location: index.php?estado=' . $errorNombre);
     exit;
 }
 
-if (!is_numeric($cantidad)) {
-    header('Location: index.php?estado=cantidad_invalida');
+$errorCantidad = validarCantidad($cantidad);
+
+if ($errorCantidad !== true) {
+    header('Location: index.php?estado=' . $errorCantidad);
     exit;
 }
 

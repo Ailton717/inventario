@@ -14,7 +14,7 @@ $fallidas = 0;
 
 foreach ($casos as [$descripcion, $entrada, $esperado]) {
 
-    // validarNombre devuelve true, o el mensaje de error en texto.
+    // validarNombre devuelve true, o el codigo del error si no es valido.
     $resultado = validarNombre($entrada);
     $obtenido = ($resultado === true);
 
