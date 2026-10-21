@@ -2,6 +2,8 @@ name: Pruebas automatizadas - Inventario
 
 on:
   push:
+    branches:
+      - "**"
   pull_request:
     branches:
       - main
@@ -17,20 +19,18 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: localhost
+          MYSQL_ROOT_PASSWORD: admin123
           MYSQL_DATABASE: inventario_pruebas
-          MYSQL_USER: root
-          MYSQL_PASSWORD: admin123
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -padmin123 --silent"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
 
     env:
-      DB_HOST: localhost
+      DB_HOST: 127.0.0.1
       DB_NAME: inventario_pruebas
       DB_USER: root
       DB_PASSWORD: admin123
@@ -42,7 +42,7 @@ jobs:
       - name: Configurar PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           extensions: pdo_mysql
 
       - name: Verificar sintaxis
