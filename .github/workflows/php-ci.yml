@@ -1,4 +1,4 @@
-name: Pruebas automatizadas - Inventario
+name: Pruebas automatizadas - inventario
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
       DB_PASSWORD: admin123
 
     steps:
-      - name: Descargar código
+      - name: Descargar codigo
         uses: actions/checkout@v4
 
       - name: Configurar PHP
@@ -47,10 +47,10 @@ jobs:
 
       - name: Verificar sintaxis
         run: |
-          php -l src/funciones.php
-          php -l tests/test_validaciones.php
-          php -l tests/conexion_pruebas.php
-          php -l tests/test_integracion_productos.php
+          php -l funciones.php
+          php -l test/test_validaciones.php
+          php -l test/conexion_pruebas.php
+          php -l test/test_integracion_productos.php
 
       - name: Crear tabla de pruebas
         env:
@@ -59,10 +59,10 @@ jobs:
           mysql --protocol=TCP \
             --host="$DB_HOST" \
             --user="$DB_USER" \
-            "$DB_NAME" < tests/estructura_pruebas.sql
+            "$DB_NAME" < base_datos.sql
 
       - name: Ejecutar pruebas unitarias
-        run: php tests/test_validaciones.php
+        run: php test/test_validaciones.php
 
-      - name: Ejecutar prueba de integración
-        run: php tests/test_integracion_productos.php
+      - name: Ejecutar prueba de integracion
+        run: php test/test_integracion_productos.php
